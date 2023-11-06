@@ -39,7 +39,7 @@ public class TodoService {
         repository.deleteById(id);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional//(readOnly = false)
     public Todo update(Long id, String description, Boolean completed) {
         Optional<Todo> optionalTodo = repository.findById(id);
         if (optionalTodo.isEmpty()) {
