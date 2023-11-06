@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Singleton
-@Transactional(readOnly = true)
 public class TodoService {
 
     private final TodoRepository repository;
@@ -19,10 +18,12 @@ public class TodoService {
         this.repository = repository;
     }
 
+    @Transactional(readOnly = true)
     public List<Todo> index() {
         return repository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<Todo> show(Long id) {
         return repository.findById(id);
     }
@@ -39,7 +40,7 @@ public class TodoService {
         repository.deleteById(id);
     }
 
-    @Transactional//(readOnly = false)
+    @Transactional
     public Todo update(Long id, String description, Boolean completed) {
         Optional<Todo> optionalTodo = repository.findById(id);
         if (optionalTodo.isEmpty()) {
