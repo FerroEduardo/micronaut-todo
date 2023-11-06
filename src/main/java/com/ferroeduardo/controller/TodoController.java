@@ -13,6 +13,7 @@ import io.micronaut.http.annotation.*;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.validation.Validated;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Tag(name = "todo")
 @Secured(SecurityRule.IS_AUTHENTICATED)
 @Validated
 @Controller("/todo")
@@ -61,6 +63,14 @@ public class TodoController {
         TodoDTO todo = TodoDTO.fromEntity(todoService.create(user, createTodo.getDescription()));
 
         return HttpResponse.created(todo, URI.create("/todo/" + todo.id()));
+    }
+
+    @Post("{id}/complete/{value}")
+    public HttpResponse<TodoDTO> complete(Principal principal, @NotNull @PositiveOrZero Long id, @NotNull Boolean value) {
+        User user = userService.findUserByUsername(principal.getName()).get();
+        todoService.complete(user, id, value);
+
+        return HttpResponse.ok();
     }
 
     @Put("{id}")
