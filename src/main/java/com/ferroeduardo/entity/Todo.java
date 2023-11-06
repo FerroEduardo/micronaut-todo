@@ -1,10 +1,7 @@
 package com.ferroeduardo.entity;
 
 import io.micronaut.serde.annotation.Serdeable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 @Serdeable
@@ -14,14 +11,18 @@ public class Todo {
     private Long    id;
     private String  description;
     private Boolean completed;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User    user;
 
     public Todo() {
     }
 
-    public Todo(Long id, String description, Boolean completed) {
+    public Todo(Long id, String description, Boolean completed, User user) {
         this.id = id;
         this.description = description;
         this.completed = completed;
+        this.user = user;
     }
 
     public Long getId() {
@@ -46,5 +47,13 @@ public class Todo {
 
     public void setCompleted(Boolean completed) {
         this.completed = completed;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

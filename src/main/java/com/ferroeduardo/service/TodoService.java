@@ -1,7 +1,9 @@
 package com.ferroeduardo.service;
 
 import com.ferroeduardo.entity.Todo;
+import com.ferroeduardo.entity.User;
 import com.ferroeduardo.exception.NotFoundException;
+import com.ferroeduardo.model.TodoDTO;
 import com.ferroeduardo.repository.TodoRepository;
 import io.micronaut.transaction.annotation.Transactional;
 import jakarta.inject.Singleton;
@@ -19,18 +21,20 @@ public class TodoService {
     }
 
     @Transactional(readOnly = true)
-    public List<Todo> index() {
-        return repository.findAll();
+    public List<TodoDTO> index(User user) {
+        return repository.findByUser(user).stream().map(TodoDTO::fromEntity).toList();
     }
 
     @Transactional(readOnly = true)
-    public Optional<Todo> show(Long id) {
-        return repository.findById(id);
+    public Optional<TodoDTO> show(User user, Long id) {
+        Optional<Todo> optionalTodo = repository.findByUserAndId(user, id);
+
+        return optionalTodo.map(TodoDTO::fromEntity);
     }
 
     @Transactional
-    public Todo create(String description) {
-        Todo todo = new Todo(null, description, Boolean.FALSE);
+    public Todo create(User user, String description) {
+        Todo todo = new Todo(null, description, Boolean.FALSE, user);
 
         return repository.save(todo);
     }
@@ -41,7 +45,7 @@ public class TodoService {
     }
 
     @Transactional
-    public Todo update(Long id, String description, Boolean completed) {
+    public TodoDTO update(Long id, String description, Boolean completed) {
         Optional<Todo> optionalTodo = repository.findById(id);
         if (optionalTodo.isEmpty()) {
             throw new NotFoundException();
@@ -52,6 +56,6 @@ public class TodoService {
             todo.setCompleted(completed);
         }
 
-        return repository.save(todo);
+        return TodoDTO.fromEntity(repository.save(todo));
     }
 }
