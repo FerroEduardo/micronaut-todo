@@ -164,4 +164,21 @@ class TodoTest {
         HttpResponse<TodoDTO> updateRequest = todoClient.update(authenticationToken, maxId + 1, updateTodo);
         assertSame(HttpStatus.NOT_FOUND, updateRequest.status());
     }
+
+    @Test
+    void complete() {
+        String                      authenticationToken = getAuthenticationToken();
+        HttpResponse<List<TodoDTO>> indexResponse       = todoClient.index(authenticationToken);
+        assertSame(indexResponse.status(), HttpStatus.OK);
+        assertEquals(3, indexResponse.body().size());
+        TodoDTO todo = indexResponse.body().get(0);
+        assertEquals(false, todo.completed());
+
+        HttpResponse<TodoDTO> updateRequest = todoClient.complete(authenticationToken, todo.id(), true);
+        assertSame(HttpStatus.OK, updateRequest.status());
+
+        HttpResponse<TodoDTO> showRequest = todoClient.show(authenticationToken, todo.id());
+        assertSame(showRequest.status(), HttpStatus.OK);
+        assertEquals(true, showRequest.body().completed());
+    }
 }

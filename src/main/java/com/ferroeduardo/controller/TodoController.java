@@ -74,15 +74,17 @@ public class TodoController {
     }
 
     @Put("{id}")
-    public HttpResponse<TodoDTO> update(@NotNull @PositiveOrZero Long id, @Body @Valid UpdateTodo updateTodo) {
-        TodoDTO todo = todoService.update(id, updateTodo.getDescription(), updateTodo.getCompleted());
+    public HttpResponse<TodoDTO> update(Principal principal, @NotNull @PositiveOrZero Long id, @Body @Valid UpdateTodo updateTodo) {
+        User    user = userService.findUserByUsername(principal.getName()).get();
+        TodoDTO todo = todoService.update(user, id, updateTodo.getDescription(), updateTodo.getCompleted());
 
         return HttpResponse.ok(todo);
     }
 
     @Delete("{id}")
-    public HttpResponse<Object> delete(@NotNull @PositiveOrZero Long id) {
-        todoService.delete(id);
+    public HttpResponse<Object> delete(Principal principal, @NotNull @PositiveOrZero Long id) {
+        User user = userService.findUserByUsername(principal.getName()).get();
+        todoService.delete(user, id);
 
         return HttpResponse.ok();
     }

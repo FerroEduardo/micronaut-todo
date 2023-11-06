@@ -1,34 +1,20 @@
-## Micronaut 4.1.6 Documentation
+<div align="center">
 
-- [User Guide](https://docs.micronaut.io/4.1.6/guide/index.html)
-- [API Reference](https://docs.micronaut.io/4.1.6/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/4.1.6/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
+# Todo List
 
----
+[![build](https://github.com/FerroEduardo/micronaut-todo/actions/workflows/build.yaml/badge.svg)](https://github.com/FerroEduardo/micronaut-todo/actions/workflows/build.yaml)
+[![test](https://github.com/FerroEduardo/micronaut-todo/actions/workflows/test.yaml/badge.svg)](https://github.com/FerroEduardo/micronaut-todo/actions/workflows/test.yaml)
+</div>
 
-- [Shadow Gradle Plugin](https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow)
-- [Micronaut Gradle Plugin documentation](https://micronaut-projects.github.io/micronaut-gradle-plugin/latest/)
-- [GraalVM Gradle Plugin documentation](https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html)
+| Description       | Method | URL                             | Body                                             |
+|:------------------|:------:|:--------------------------------|:-------------------------------------------------|
+| Sign-in           |  GET   | /auth/signin                    | `{ "username": "eduardo", "password": "senha" }` |
+| Sign-up           |  POST  | /auth/signip                    | `{ "username": "eduardo", "password": "senha" }` |
+| Index todo        |  GET   | /todo                           |                                                  |
+| Show todo         |  GET   | /todo/:todoId                   |                                                  |
+| Create todo       |  POST  | /todo                           | `{ "description": "abcd" }`                      |
+| Update todo       |  PUT   | /todo/:todoId                   | `{ "description": "abcd", "completed": false }`  |
+| Delete todo       | DELETE | /todo/:todoId                   |                                                  |
+| Set todo complete |  POST  | /todo/:todoId/complete/:boolean |                                                  |
 
-## Feature tomcat-server documentation
-
-- [Micronaut Tomcat Server documentation](https://micronaut-projects.github.io/micronaut-servlet/1.0.x/guide/index.html#tomcat)
-
-## Feature jdbc-hikari documentation
-
-- [Micronaut Hikari JDBC Connection Pool documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#jdbc)
-
-## Feature serialization-jackson documentation
-
-- [Micronaut Serialization Jackson Core documentation](https://micronaut-projects.github.io/micronaut-serialization/latest/guide/)
-
-## Feature micronaut-aot documentation
-
-- [Micronaut AOT documentation](https://micronaut-projects.github.io/micronaut-aot/latest/guide/)
-
-## Feature hibernate-jpa documentation
-
-- [Micronaut Hibernate JPA documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#hibernate)
-
-
+> Swagger: `/swagger/views/swagger-ui`

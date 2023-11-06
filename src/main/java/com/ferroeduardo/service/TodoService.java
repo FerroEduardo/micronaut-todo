@@ -40,13 +40,17 @@ public class TodoService {
     }
 
     @Transactional
-    public void delete(Long id) {
-        repository.deleteById(id);
+    public void delete(User user, Long id) {
+        Optional<Todo> optionalTodo = repository.findByUserAndId(user, id);
+        if (optionalTodo.isEmpty()) {
+            throw new NotFoundException();
+        }
+        repository.delete(optionalTodo.get());
     }
 
     @Transactional
-    public TodoDTO update(Long id, String description, Boolean completed) {
-        Optional<Todo> optionalTodo = repository.findById(id);
+    public TodoDTO update(User user, Long id, String description, Boolean completed) {
+        Optional<Todo> optionalTodo = repository.findByUserAndId(user, id);
         if (optionalTodo.isEmpty()) {
             throw new NotFoundException();
         }
@@ -57,5 +61,18 @@ public class TodoService {
         }
 
         return TodoDTO.fromEntity(repository.save(todo));
+    }
+
+    @Transactional
+    public void complete(User user, Long id, Boolean value) {
+        Optional<Todo> optionalTodo = repository.findByUserAndId(user, id);
+        if (optionalTodo.isEmpty()) {
+            throw new NotFoundException();
+        }
+
+        Todo todo = optionalTodo.get();
+        todo.setCompleted(value);
+
+        repository.save(todo);
     }
 }

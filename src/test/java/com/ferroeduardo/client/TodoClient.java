@@ -20,6 +20,9 @@ public interface TodoClient {
     @Post
     HttpResponse<TodoDTO> create(@Header String authorization, @Body CreateTodo createTodo);
 
+    @Post("{id}/complete/{value}")
+    HttpResponse<TodoDTO> complete(@Header String authorization, Long id, Boolean value);
+
     @Put("{id}")
     HttpResponse<TodoDTO> update(@Header String authorization, Long id, @Body UpdateTodo updateTodo);
 
